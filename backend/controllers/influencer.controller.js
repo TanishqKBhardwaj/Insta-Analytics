@@ -3,6 +3,7 @@ import Post from "../models/Post.js";
 import { getInstagramData } from "../data_pipeline/dataextractor.js";
 import { preprocessInstagramData } from "../utils/preprocessInstagram.js";
 import User from "../models/User.js";
+import axios from "axios";
 
 export const registerInfluencerProfile = async (req, res) => {
   try {
@@ -140,3 +141,51 @@ export const refreshInfluencerData = async (req, res) => {
   }
 
 }
+
+
+
+
+
+
+export const checkInfluencerProfile = async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const response = await axios.get(`https://www.instagram.com/${username}/`, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36",
+      },
+    });
+
+    if (response.status === 200 && response.data.includes("<!DOCTYPE html>")) {
+      // Now check inside HTML if it's public or private
+      const isPrivate = response.data.includes("This account is private");
+
+      return res.json({
+        success: true,
+        exists: true,
+        isPrivate,
+      });
+    }
+
+    return res.json({
+      success: false,
+      exists: false,
+      isPrivate: null,
+    });
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      return res.json({
+        success: true,
+        exists: false,
+        isPrivate: null,
+      });
+    }
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      error: error.message,
+    });
+  }
+};

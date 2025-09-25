@@ -1,21 +1,19 @@
-// pages/Register.jsx
+// pages/Login.jsx
 import React, { useState } from 'react'
+import RegisterImg from '../assets/register.png' // Reuse the same image
+import { Link } from 'react-router-dom'
+import { LoginUser } from '../api/auth'
 import { Loader2Icon } from 'lucide-react'
-import RegisterImg from '../assets/register.png'
-import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
-import {registerUser} from '../api/auth.js'
-import {BackgroundBeamsWithCollision} from './acternity/background-beams-with-collison'
+import { BackgroundBeamsWithCollision } from './acternity/background-beams-with-collison'
 
-
-export default function Register() {
-  const navigate=useNavigate()
+export default function Login() {
+   const navigate=useNavigate()
   const [formData, setFormData] = useState({
-    username: '',
     email: '',
     password: '',
   })
-   const [disableSubmit,setDisable]=useState(false)
+  const [disableSubmit,setDisable]=useState(false)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -25,38 +23,29 @@ export default function Register() {
     try {
       setDisable(true)
        e.preventDefault()
-    await registerUser(formData)
-    navigate('/')
+       await LoginUser(formData)
+       navigate('/')
+      
     } catch (error) {
-      navigate("/register")
-    console.log(error);
+       navigate("/login")
+       console.log(error);
       
     }finally{
-      setDisable(false)
+     setDisable(false)
     }
-    
     // TODO: call your API
   }
 
   return (
-    
-    <div className="  h-full flex items-center justify-center">
-     <BackgroundBeamsWithCollision className={"max-w-4xl w-full rounded-2xl"}>
-      <div className=" bg-[#0F0F12] backdrop-blur-md  shadow-xl w-full  flex flex-col md:flex-row overflow-hidden mx-4">
+    <div className=" h-full flex items-center justify-center">
+       <BackgroundBeamsWithCollision className={"max-w-4xl w-full rounded-2xl"}  >
+      <div className=" backdrop-blur-md  shadow-xl w-full   flex flex-col md:flex-row overflow-hidden mx-4">
+       
         {/* Left: Form */}
-        
         <div className="flex-1 p-8 md:p-12">
-          <h2 className="text-3xl font-bold text-white mb-6">Create Account</h2>
+          
+          <h2 className="text-3xl font-bold text-white mb-6">Login</h2>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <input
-              type="text"
-              name="username"
-              placeholder="Name"
-              value={formData.username}
-              onChange={handleChange}
-              className="p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-focus duration-200 ease-in-out"
-              required
-            />
             <input
               type="email"
               name="email"
@@ -85,28 +74,29 @@ export default function Register() {
     hover:scale-105 hover:shadow-xl cursor-pointer"
     disabled={disableSubmit}
             >
-              {disableSubmit?<Loader2Icon className=' mx-auto animate-spin'/>:"Register"}
+             {disableSubmit?<Loader2Icon className='  w-full mx-auto animate-spin'/>:"Login"}
             </button>
           </form>
 
           {/* Register Link */}
           <p className="text-gray-400 text-sm mt-4">
-            Already have an account?{' '}
+            Don’t have an account?{' '}
             <Link
-              to="/login"
+              to="/register"
               className="text-purple-400 hover:text-purple-300 font-medium"
             >
-              Login
+              Register
             </Link>
-            </p>
+          </p>
         </div>
 
-        {/* Right: SVG Illustration */}
+        {/* Right: Illustration */}
         <div className="flex-1 bg-gradient-to-br from-purple-700/20 via-pink-700/20 to-indigo-700/20 flex items-center justify-center p-8 md:p-12">
           <img src={RegisterImg} className="w-full h-full object-contain" />
         </div>
-        
+       
       </div>
+
       </BackgroundBeamsWithCollision>
     </div>
   )

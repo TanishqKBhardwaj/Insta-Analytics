@@ -1,8 +1,18 @@
-// components/GlassyNavbar.jsx
-import React from 'react'
-import { Home, BarChart2, LayoutDashboard } from 'lucide-react'
+import { Home, BarChart2, LayoutDashboard,LogOut } from 'lucide-react'
+import {Link,useNavigate} from "react-router-dom"
+import { LogOutUser } from '../api/auth'
+
 
 export default function GlassyNavbar() {
+
+    const navigate=useNavigate()
+
+    const logOut=async()=>{
+        
+            await LogOutUser()
+            navigate('/login')
+    }
+
     return (
         <nav
             className="
@@ -27,9 +37,24 @@ my-4
 
       "
         >
+            <Link to='/'>
             <Home className="text-white w-6 h-6 cursor-pointer hover:scale-110 transition-transform" />
-            <LayoutDashboard className="text-white w-6 h-6 cursor-pointer hover:scale-110 transition-transform" />
+            </Link>
+
+            <Link to='/influencer/posts-analysis'>
             <BarChart2 className="text-white w-6 h-6 cursor-pointer hover:scale-110 transition-transform" />
+            </Link>
+
+            <Link to='/influencer/dashboard'>
+             <LayoutDashboard className="text-white w-6 h-6 cursor-pointer hover:scale-110 transition-transform" />
+            </Link>
+
+             <button onClick={()=>logOut()}>
+             <LogOut className="text-white w-6 h-6 cursor-pointer hover:scale-110 transition-transform" />
+            </button>
+            
+           
+            
         </nav>
     )
 }

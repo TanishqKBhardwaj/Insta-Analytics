@@ -11,7 +11,7 @@ const client = new ApifyClient({
 
 // Prepare Actor input
 const input = {
-    usernames: ["supsliftz"],
+    usernames: ["hahha"],
 };
 
 (async () => {
@@ -24,7 +24,7 @@ const input = {
         const { items } = await client.dataset(run.defaultDatasetId).listItems();
 
         // Save results to JSON file
-        const fileName = "profile_output.json";
+        const fileName = "profile_output2.json";
         fs.writeFileSync(fileName, JSON.stringify(items, null, 2));
 
         console.log(`✅ Data saved to ${fileName} with ${items.length} records`);
