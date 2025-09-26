@@ -13,7 +13,7 @@ const router = express.Router();
  * @desc    Get influencer profile (basic info + analytics)
  */
 router.post("/register/:username", authenticate,registerInfluencerProfile);
-router.get("/:username",authenticate,getInfluencerProfile);
+router.get("/",authenticate,getInfluencerProfile);
 router.get("/check/:username",authenticate,checkInfluencerProfile)
 
 /**

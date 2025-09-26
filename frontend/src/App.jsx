@@ -6,6 +6,7 @@ import { useUserStore } from "./store/user.store"
 import { useEffect } from "react"
 import { BackgroundLines } from "./components/acternity/background-lines"
 import InfluencerRegister from "./components/InfluencerRegister"
+import InfluencerDashBoard from "./components/InfluencerDashBoard"
 
  
 
@@ -19,18 +20,21 @@ function App() {
   },[])
   return (
 
-    <div className="bg-[#09090B] ">
+    <div className="bg-[#09090B]  ">
 
       <BackgroundLines>
+
        <Routes>
       <Route exact path="/register" element={<Register/>}/>
       <Route exact path="/login" element={<Login/>}/>
       <Route exact path="/" element={<Home/>}/>
       <Route exact path="/influencer/register" element={<InfluencerRegister/>}/>
+      <Route exact path="/influencer/dashboard" element={<InfluencerDashBoard/>}/>
       
       </Routes>
-     
       </BackgroundLines>
+     
+      
 
       
     </div>

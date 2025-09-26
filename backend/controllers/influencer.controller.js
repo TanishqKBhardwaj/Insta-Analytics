@@ -1,6 +1,7 @@
 import Influencer from "../models/Influencer.js";
 import Post from "../models/Post.js";
 import { getInstagramData } from "../data_pipeline/dataextractor.js";
+import { checkInstagramUserExists } from "../data_pipeline/checkInstagramUserExists.js";
 import { preprocessInstagramData } from "../utils/preprocessInstagram.js";
 import User from "../models/User.js";
 import axios from "axios";
@@ -71,12 +72,15 @@ export const registerInfluencerProfile = async (req, res) => {
 export const getInfluencerProfile=async(req,res)=>{
   try {
     let user=req.user
+    user=await User.findById(user.id)
+   if(!user)
+    return res.status(403).json({success:false,message:"We are not able to locate you in our database, seems like you haven't registered/login yet"})
+    
 
     const influencer=await Influencer.findById(user.influencer)
     if(!influencer)
       return res.status(404).json({success:false,message:"Cannot find your influencer profile in our database"})
-
-    return res.status(200).json({success:true,messsage:"Influencer's data fetched successfully",influencer})
+    return res.status(200).json({success:true,message:"Influencer's data fetched successfully",influencer})
   } catch (error) {
     console.error("Error happened at getInfluencerProfile:",error)
     return res.status(500).json({success:false,message:"Cannot get your influencer data at the moment ,server error"})
@@ -151,41 +155,18 @@ export const checkInfluencerProfile = async (req, res) => {
   const { username } = req.params;
 
   try {
-    const response = await axios.get(`https://www.instagram.com/${username}/`, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36",
-      },
-    });
-
-    if (response.status === 200 && response.data.includes("<!DOCTYPE html>")) {
-      // Now check inside HTML if it's public or private
-      const isPrivate = response.data.includes("This account is private");
-
-      return res.json({
-        success: true,
-        exists: true,
-        isPrivate,
-      });
+    const exists= await checkInstagramUserExists(username)
+    if(!exists){
+      return res.status(404).json({success:true,exists:false,message:"This influencer doesn't exist"})
     }
 
-    return res.json({
-      success: false,
-      exists: false,
-      isPrivate: null,
-    });
+    return res.status(200).json({success:true,message:"Successfully found the user , now let us scrape the data, this may take some time wait...",exists:true})
+
+   
   } catch (error) {
-    if (error.response && error.response.status === 404) {
-      return res.json({
-        success: true,
-        exists: false,
-        isPrivate: null,
-      });
-    }
-    return res.status(500).json({
-      success: false,
-      message: "Something went wrong",
-      error: error.message,
-    });
+    console.error("Error happened at checkInfluencer controller ")
+    return res.status(500).json({success:false,message:"Server error , please try after some time."})
   }
 };
+
+

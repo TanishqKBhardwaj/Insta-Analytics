@@ -17,6 +17,8 @@ export const useUserStore = create(
 
       setEmail: (email) =>
         set({ email, lastUpdated: Date.now() }),
+      setInfluencer: (influencer) =>
+        set({ influencer:influencer, lastUpdated: Date.now() }),
 
       setUser: (user) =>
         set({

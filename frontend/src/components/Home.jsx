@@ -7,17 +7,16 @@ import { Link } from 'react-router-dom';
 function Home() {
   const {influencer} =useUserStore((state)=>state)
   return (
-    <div className='flex  items-center justify-center  h-full '>
+    <div className=' max-w-6xl  mx-auto flex  items-center justify-center  h-full '>
       <Navbar />
-      <div className='  '>
 
       {/* Header Section */}
       <header className= { cn(
-          "absolute inset-0",
+          
           "[background-size:20px_20px]",
           "[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]",
           "dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]",
-        )+"  relative flex flex-col justify-center items-start w-full h-96 p-8 md:p-16  backdrop-blur-md rounded-3xl overflow-hidden"}>
+        )+" mt-10  relative flex flex-col justify-center items-start  h-96 p-8 md:p-16  backdrop-blur-md rounded-3xl overflow-hidden"}>
         
         {/* Heading */}
         <h1 className="
@@ -51,7 +50,7 @@ function Home() {
         )
 }
       </header>
-      </div>
+      
     </div>
   )
 }

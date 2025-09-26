@@ -17,7 +17,8 @@ export default function InfluencerRegister() {
 
     try {
       setDisable(true)
-      await registerInfluencer(influencer)
+      const result =await registerInfluencer(influencer)
+      if(result)
       navigate('/influencer/dashboard')
     } catch (error) {
       console.error(error)
