@@ -3,10 +3,13 @@ import { TextGenerateEffect } from "./acternity/text-generate-effect"
 import NavBar from "./Navbar"
 import { getAllPosts } from "../api/posts"
 import { Heart,MessageCircle,CalendarCheck2 } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+
 
 function PostPage() {
 
 const [posts,setPosts]=useState([])
+const navigate=useNavigate()
 useEffect(()=>{
     (async () => {
         setPosts(await getAllPosts());
@@ -48,7 +51,7 @@ useEffect(()=>{
           
           <h3 className="flex gap-1 text-white"><span className="font-bold text-pink-400 underline-offset-4 decoration-pink-500"> Date: <CalendarCheck2 color={"pink-400"} /></span> {new Date(post?.postedAt).toLocaleDateString("en-GB")}</h3>
 
-          <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 w-full">
+          <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 w-full" onClick={()=>navigate(`/influencer/posts-analysis/${post.postId}`)}>
   <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
   <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
     Analyse

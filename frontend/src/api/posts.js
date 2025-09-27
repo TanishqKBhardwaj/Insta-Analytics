@@ -31,6 +31,21 @@ export const getAllPosts = async () => {
     }
 }
 
+
+export const getPost=async (postId) => {
+    try {
+        console.log(postId)
+        const res=await api.get(`/posts/${postId}`)
+        if(res?.data?.success){
+            toast.success(res?.data?.message)
+            return res?.data?.post
+        }
+    } catch (error) {
+        console.log(error?.response?.data?.message)
+        toast.error(error?.response?.data?.message)
+    }
+}
+
 function formatNumber(num, isAverage = false) {
     if (num === null || num === undefined || isNaN(num)) return "0";
 

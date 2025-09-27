@@ -159,15 +159,15 @@ function InfluencerDashBoard() {
 
         <div className='w-full space-y-2 p-1'>
          <h2 className='text-gray-300'>❤️ Average Likes per post </h2>
-        <div className='w-full h-3 '>
+        <div className='w-full h-3 bg-[#1B1B1F] rounded-3xl'>
           <div className={`overflow-hidden rounded-3xl bg-pink-500 ${influencer?.avgLikes?.includes('B')?"w-[90%]":influencer?.avgLikes?.includes('M')?"w-[60%]":"w-[30%]"} h-full`}></div>
         </div>
         </div>
 
         <div className='w-full space-y-2 p-1'>
          <h2 className='text-gray-300'>❤️ Engagment Rate % </h2>
-        <div className='w-full h-3 '>
-          <div className={`overflow-hidden rounded-3xl bg-pink-500 w-[${influencer?.engagementRate+'%'}] h-full`}></div>
+        <div className='w-full h-3 bg-[#1B1B1F] rounded-3xl '>
+          <div className={`overflow-hidden rounded-3xl bg-pink-500  h-full`} style={{ width: influencer?.engagementRate + '%' }}></div>
         </div>
         </div>
         
