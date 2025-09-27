@@ -1,9 +1,10 @@
 import Post from "../models/Post.js"
+import User from "../models/User.js"
 
 
 export const getPostsByInfluencer=async(req,res)=>{
     try {
-        const user=req.user
+        let user=await User.findById(req.user.id)
         if(!user.influencer)
             return res.status(403).json({success:false,message:"Invalid request , first register your influencer on our plateform"})
         const posts=await Post.find({influencer:user.influencer})

@@ -7,6 +7,7 @@ import { useEffect } from "react"
 import { BackgroundLines } from "./components/acternity/background-lines"
 import InfluencerRegister from "./components/InfluencerRegister"
 import InfluencerDashBoard from "./components/InfluencerDashBoard"
+import PostPage from "./components/PostPage"
 
  
 
@@ -30,6 +31,7 @@ function App() {
       <Route exact path="/" element={<Home/>}/>
       <Route exact path="/influencer/register" element={<InfluencerRegister/>}/>
       <Route exact path="/influencer/dashboard" element={<InfluencerDashBoard/>}/>
+      <Route exact path="/influencer/posts-analysis" element={<PostPage/>}/>
       
       </Routes>
       </BackgroundLines>
