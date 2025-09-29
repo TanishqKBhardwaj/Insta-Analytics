@@ -65,3 +65,19 @@ function formatNumber(num, isAverage = false) {
     // remove unnecessary .00 or .0
     return formatted.replace(/\.0+([KMB])/, "$1").replace(/\.00$/, "");
 }
+
+export  const getPostAnalyzed=async (postId) => {
+    try {
+
+        console.log("We reached getPostAnalyzed",postId)
+        const res=await api.get(`/posts/analyze-post/${postId}`)
+        if(res?.data?.success){
+            console.log(res?.data?.result)
+            toast.success(res?.data?.message)
+            return res?.data?.result
+        }
+    } catch (error) {
+        console.log(error?.response?.data?.message)
+        toast.error(error?.response?.data?.message)
+    }
+}

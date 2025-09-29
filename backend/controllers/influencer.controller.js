@@ -3,6 +3,7 @@ import Post from "../models/Post.js";
 import { getInstagramData } from "../data_pipeline/dataextractor.js";
 import { checkInstagramUserExists } from "../data_pipeline/checkInstagramUserExists.js";
 import { preprocessInstagramData } from "../utils/preprocessInstagram.js";
+import { uploadInstagramMediaToCloudinary } from "../config/InstaToCloud.js";
 import User from "../models/User.js";
 import axios from "axios";
 
@@ -37,23 +38,53 @@ export const registerInfluencerProfile = async (req, res) => {
     const { influencerData, postsData } = preprocessInstagramData(scrapedData);
 
     // Save/update Influencer
-    influencer = await Influencer.findOneAndUpdate(
+    if (influencerData.profilePic) {
+      influencerData.profilePic = await uploadInstagramMediaToCloudinary(
+        influencerData.profilePic,
+        `influencer_${username}`
+      );
+    }
+
+    // 2️⃣ Save or update influencer in DB
+     influencer = await Influencer.findOneAndUpdate(
       { username },
       influencerData,
       { new: true, upsert: true }
     );
 
     await User.findByIdAndUpdate(user._id, { influencer: influencer._id })
-    await Promise.all(
-      postsData.map((post) =>
-        Post.findOneAndUpdate(
-          { postId: post.postId },
-          { ...post, influencer: influencer._id },
-          { new: true, upsert: true }
-        )
-      )
-    );
+   await Promise.all(
+      postsData.map(async (post) => {
+        // 1️⃣ Upload main imageUrl to Cloudinary
+        if (post.imageUrl) {
+          post.imageUrl = await uploadInstagramMediaToCloudinary(post.imageUrl, post.postId);
+        }
 
+        // 2️⃣ Upload all images in the images array
+        if (post.images && post.images.length > 0) {
+          const cloudinaryImages = await Promise.all(
+            post.images.map((imgUrl, index) =>
+              uploadInstagramMediaToCloudinary(imgUrl, `${post.postId}_${index}`)
+            )
+          );
+          post.images = cloudinaryImages;
+          // Optionally update imageUrl to first image if not already set
+          if (!post.imageUrl && cloudinaryImages.length > 0) {
+            post.imageUrl = cloudinaryImages[0];
+          }
+        }
+
+        // 3️⃣ Assign influencer ID
+        post.influencer = influencer._id;
+
+        // 4️⃣ Save or update post in DB
+        await Post.findOneAndUpdate(
+          { postId: post.postId },
+          { ...post },
+          { new: true, upsert: true }
+        );
+      })
+    )
 
 
 

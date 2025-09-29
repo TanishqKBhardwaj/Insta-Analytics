@@ -28,9 +28,7 @@ const ImageCarousel = ({ images }) => {
             <img
               key={index}
               src={
-       img
-      ? `${import.meta.env.VITE_BACKEND_URL}/proxy-image?url=${encodeURIComponent(img)}`
-      : "https://id-preview--e9fc7605-4fba-425e-a1e9-394971741dc0.lovable.app/assets/influencer-profile-CWMvux0e.jpg"
+      img
   }
               alt={`slide-${index}`}
               className="w-full flex-shrink-0 object-cover "

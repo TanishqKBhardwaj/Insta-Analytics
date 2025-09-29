@@ -31,9 +31,7 @@ useEffect(()=>{
                 posts.map((post,index)=>
                  <div className="flex w-full  flex-wrap shadow-xl/10 shadow-pink-400 border-none rounded-2xl p-2 items-center justify-between    mb-20 md:mb-0 " key={index}>
             <img src={
-    post?.imageUrl
-      ? `${import.meta.env.VITE_BACKEND_URL}/proxy-image?url=${encodeURIComponent(post.imageUrl)}`
-      : "https://id-preview--e9fc7605-4fba-425e-a1e9-394971741dc0.lovable.app/assets/influencer-profile-CWMvux0e.jpg"
+   post?.imageUrl
   } className="h-20 w-20  md:h-40 md:w-40 rounded-xl object-cover shadow-xl/30 shadow-pink-500"/>
             <div className="flex flex-col  items-start w-[50%]  gap-2">
                 <h3 className=" w-full text-white"><span className="font-bold text-pink-400 underline-offset-4">Caption:</span>  {post.caption.length > 30 ? post.caption.substring(0, 30) + "..." : post?.caption}...</h3>

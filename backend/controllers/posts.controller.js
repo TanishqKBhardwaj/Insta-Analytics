@@ -1,5 +1,6 @@
 import Post from "../models/Post.js"
 import User from "../models/User.js"
+import { analyzeImage } from "../data_pipeline/aesthetic-scorer.js"
 
 
 export const getPostsByInfluencer=async(req,res)=>{
@@ -35,3 +36,46 @@ export const getPostByPostId=async (req,res) => {
     }
     
 }
+
+
+export const analyzePostImages = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await Post.findOne({ postId });
+
+    if (!post)
+      return res.status(404).json({ success: false, message: "Post not found" });
+
+    // If result already exists, return it
+    if (post.result)
+      return res.status(200).json({
+        success: true,
+        message: "Successfully fetched analysis result",
+        result: post.result,
+      });
+
+    
+    const result = {};
+    result.imageUrl = await analyzeImage(post.imageUrl);
+
+    if (post.images && post.images.length > 0) {
+      result.images = await Promise.all(post.images.map((img) => analyzeImage(img)));
+    }
+
+    
+    post.result = result;
+    await post.save(); 
+
+    return res.status(200).json({
+      success: true,
+      message: "Successfully fetched analysis result",
+      result,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "A server error occurred, please try again later.",
+    });
+  }
+};

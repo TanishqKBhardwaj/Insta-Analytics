@@ -36,6 +36,10 @@ const postSchema = new mongoose.Schema(
       contrast: Number,
       blurriness: Number,
     },
+    result: { 
+    type: Object, // can store analysis results
+    default: null 
+  },
 
     postedAt: { type: Date, default: Date.now },
   },

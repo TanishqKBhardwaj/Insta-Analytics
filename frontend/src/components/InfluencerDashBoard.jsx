@@ -32,9 +32,7 @@ function InfluencerDashBoard() {
     {/* Profile Image */}
     <img
       src={
-    influencer?.profilePic
-      ? `${import.meta.env.VITE_BACKEND_URL}/proxy-image?url=${encodeURIComponent(influencer.profilePic)}`
-      : "https://id-preview--e9fc7605-4fba-425e-a1e9-394971741dc0.lovable.app/assets/influencer-profile-CWMvux0e.jpg"
+      influencer?.profilePic
   }
       className="w-20 h-20 object-contain rounded-full"
     />
