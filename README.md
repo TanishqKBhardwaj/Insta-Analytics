@@ -29,7 +29,7 @@ Insta-Analytics/
 
 
 🎥 **Watch the folder structure overview here:**  
-[Google Drive Video Link](PASTE-YOUR-LINK-HERE)
+[Google Drive Video Link](https://drive.google.com/file/d/1xCOS7CJW0h0lAPlbuJINq8cYkyknjm-K/view?usp=sharing)
 
 ---
 
@@ -38,7 +38,7 @@ Insta-Analytics/
 ### **Frontend (.env)**  
 ```env
 VITE_BACKEND_URL=http://localhost:5000
-
+```
 ---
 
 ### **Backend (.env)**  
@@ -51,11 +51,11 @@ JWT_SECRET=your_jwt_secret
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-
+```
 ---
 
 ## 🛠️ Installation & Setup
-
+```
 Clone the repository:
 
 git clone https://github.com/your-username/insta-analytics.git
@@ -90,3 +90,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 📜 License
 
 This project is licensed under the MIT License.
+```
